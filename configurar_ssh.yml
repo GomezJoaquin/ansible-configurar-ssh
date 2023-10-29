@@ -1,6 +1,6 @@
 ---
 - name: Configurar SSH
-  hosts: ##Ingresar ip/hostname
+  hosts: ###Ingresar ip/hostname
   become: yes
 
   vars_prompt:
@@ -15,7 +15,7 @@
     - name: Copiar clave pública SSH
       authorized_key:
         user: "{{ remote_user }}"
-        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}" ###Especificar ubicacion de clave publica. 
         state: present
       become: yes
 
