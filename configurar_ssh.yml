@@ -1,0 +1,25 @@
+---
+- name: Configurar SSH
+  hosts: ##Ingresar ip/hostname
+  become: yes
+
+  vars_prompt:
+    - name: remote_user
+      prompt: "Ingresa el nombre de usuario en el servidor remoto: "
+
+    - name: ansible_become_pass
+      prompt: "Ingresa la contraseña de sudo en el servidor remoto: "
+      private: yes
+
+  tasks:
+    - name: Copiar clave pública SSH
+      authorized_key:
+        user: "{{ remote_user }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        state: present
+      become: yes
+
+    - name: Reiniciar servicio SSH
+      service:
+        name: ssh
+        state: restarted
